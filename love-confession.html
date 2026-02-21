@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Confession to You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #ff1744;
+            --secondary-color: #c2185b;
+            --dark-bg: #0f0f1e;
+            --dark-secondary: #1a1a2e;
+            --accent-light: #ffd1dc;
+            --accent-gold: #d4af37;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --glow-radius: 20px;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a0f2e 50%, var(--dark-secondary) 100%);
+            color: var(--text-primary);
+            overflow-y: scroll;
+            position: relative;
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+        }
+
+        /* ========== FLOATING HEARTS BACKGROUND ========== */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: clamp(20px, 5vw, 60px);
+            opacity: 0.3;
+            animation: float 8s infinite ease-in;
+            filter: drop-shadow(0 0 10px rgba(255, 23, 68, 0.5));
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========== INTRO SCREEN ========== */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.95) 0%, rgba(26, 15, 46, 0.95) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeInIntro 0.8s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeInIntro {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .intro-screen.hidden {
+            animation: fadeOutIntro 0.8s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fadeOutIntro {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .intro-content {
+            text-align: center;
+            animation: slideUp 1s ease-out 0.3s backward;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .intro-heart {
+            font-size: 100px;
+            margin-bottom: 30px;
+            animation: pulseHeart 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 23, 68, 0.6));
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .intro-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 8vw, 48px);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 50px;
+            line-height: 1.3;
+            text-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
+        }
+
+        .intro-button {
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: 600;
+            border: 2px solid var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 0 40px rgba(255, 23, 68, 0.4);
+            animation: popIn 0.8s ease-out 0.8s backward;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .intro-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(255, 23, 68, 0.8);
+        }
+
+        .intro-button:active {
+            transform: scale(0.95);
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 40px 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ========== HER NAME SECTION ========== */
+        .her-name-section {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .her-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(36px, 10vw, 72px);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-light), var(--primary-color), var(--accent-light));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s ease-in-out infinite, slideInDown 0.8s ease-out 0.1s backward;
+            margin-bottom: 20px;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: slideInDown 0.8s ease-out 0.2s backward;
+        }
+
+        /* ========== CONFESSION MESSAGE ========== */
+        .confession-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 23, 68, 0.2);
+            border-radius: 20px;
+            padding: 50px 30px;
+            margin: 60px 0;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(255, 23, 68, 0.1);
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .confession-text {
+            font-size: clamp(18px, 5vw, 24px);
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-weight: 300;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--primary-color);
+            margin-left: 4px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 49%, 100% {
+                opacity: 1;
+            }
+            50%, 99% {
+                opacity: 0;
+            }
+        }
+
+        /* ========== BIG CONFESSION ========== */
+        .big-confession {
+            text-align: center;
+            margin: 100px 0 80px;
+            animation: slideInUp 0.8s ease-out 0.4s backward;
+        }
+
+        .big-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 15vw, 120px);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--primary-color) 50%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 50px rgba(255, 23, 68, 0.3);
+            line-height: 1.2;
+            filter: drop-shadow(0 0 30px rgba(255, 23, 68, 0.3));
+            animation: popIn 0.8s ease-out 0.6s backward;
+        }
+
+        /* ========== BUTTONS SECTION ========== */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+            animation: slideInUp 0.8s ease-out 0.8s backward;
+        }
+
+        .response-button {
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border: 2px solid transparent;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .yes-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 0 40px rgba(255, 23, 68, 0.5);
+            border: 2px solid var(--primary-color);
+        }
+
+        .yes-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 80px rgba(255, 23, 68, 0.8);
+            filter: brightness(1.1);
+        }
+
+        .yes-button:active {
+            transform: scale(0.95);
+        }
+
+        .no-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border: 2px solid rgba(255, 23, 68, 0.3);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transition: all 0.1s ease;
+        }
+
+        .no-button:hover {
+            background: rgba(255, 23, 68, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
+        }
+
+        /* ========== HEART EXPLOSION ANIMATION ========== */
+        .heart-explosion {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .explosion-heart {
+            position: absolute;
+            font-size: 40px;
+            animation: explode 2s ease-out forwards;
+            filter: drop-shadow(0 0 15px rgba(255, 23, 68, 0.8));
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========== MUSIC CONTROL ========== */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            background: rgba(255, 23, 68, 0.2);
+            border: 2px solid rgba(255, 23, 68, 0.4);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 28px;
+            backdrop-filter: blur(10px);
+        }
+
+        .music-control:hover {
+            background: rgba(255, 23, 68, 0.4);
+            box-shadow: 0 0 40px rgba(255, 23, 68, 0.6);
+            transform: scale(1.1);
+        }
+
+        /* ========== PARALLAX EFFECT ========== */
+        .parallax-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== RESPONSIVE DESIGN ========== */
+        @media (max-width: 768px) {
+            .buttons-container {
+                gap: 15px;
+            }
+
+            .response-button {
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+
+            .intro-button {
+                padding: 16px 40px;
+                font-size: 16px;
+            }
+
+            .confession-container {
+                padding: 30px 20px;
+                margin: 40px 0;
+            }
+
+            .music-control {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .buttons-container {
+                gap: 10px;
+            }
+
+            .response-button {
+                padding: 12px 25px;
+                font-size: 14px;
+            }
+
+            .intro-text {
+                line-height: 1.4;
+            }
+
+            .her-name {
+                margin-bottom: 15px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+            }
+
+            .confession-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- FLOATING HEARTS -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- INTRO SCREEN -->
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-content">
+            <div class="intro-heart">❤️</div>
+            <h1 class="intro-text">I have something to tell you...</h1>
+            <button class="intro-button" id="introButton">Begin</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="mainContent">
+        <div class="content-wrapper">
+            <!-- HER NAME -->
+            <div class="her-name-section">
+                <h1 class="her-name" id="herName">{{HER_NAME}}</h1>
+                <p class="subtitle">A moment I've been waiting for</p>
+            </div>
+
+            <!-- CONFESSION MESSAGE -->
+            <div class="confession-container parallax-section">
+                <p class="confession-text">
+                    <span id="typingText"></span><span class="typing-cursor" id="cursor"></span>
+                </p>
+            </div>
+
+            <!-- BIG CONFESSION -->
+            <div class="big-confession parallax-section">
+                <h2 class="big-text">I Love You ❤️</h2>
+            </div>
+
+            <!-- RESPONSE BUTTONS -->
+            <div class="buttons-container">
+                <button class="response-button yes-button" id="yesButton">Yes ❤️</button>
+                <button class="response-button no-button" id="noButton">No 🙈</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MUSIC CONTROL -->
+    <div class="music-control" id="musicControl" title="Toggle Music">🔇</div>
+
+    <!-- AUDIO ELEMENT -->
+    <audio id="bgMusic" loop muted>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ========== CONFIG ==========
+        const CONFIG = {
+            herName: 'My Love', // Replace {{HER_NAME}} with your preferred name
+            confessionMessage: 'Every moment with you feels like a beautiful dream. Your smile brightens my darkest days, and your presence makes everything feel right. I\'ve thought about this moment countless times, and now that it\'s here, I want you to know how deeply I feel for you. You\'ve changed my life in ways I never thought possible.',
+            typingSpeed: 50, // milliseconds per character
+            heartCount: 15,
+        };
+
+        // ========== FLOATING HEARTS ==========
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+            
+            for (let i = 0; i < CONFIG.heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 3 + 's';
+                heart.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(heart);
+
+                // Re-create hearts after animation completes
+                setTimeout(() => {
+                    heart.remove();
+                    createFloatingHearts();
+                }, (8 + Math.random() * 4) * 1000);
+            }
+        }
+
+        // ========== INTRO SCREEN ==========
+        function handleIntroButton() {
+            const introScreen = document.getElementById('introScreen');
+            introScreen.classList.add('hidden');
+            
+            // Start typing effect after intro fades
+            setTimeout(() => {
+                startTypingAnimation();
+            }, 800);
+        }
+
+        // ========== REPLACE HER NAME ==========
+        function setHerName(name) {
+            document.getElementById('herName').textContent = name;
+        }
+
+        // ========== TYPING ANIMATION ==========
+        function startTypingAnimation() {
+            const text = CONFIG.confessionMessage;
+            const typingText = document.getElementById('typingText');
+            const cursor = document.getElementById('cursor');
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    typingText.textContent += text[index];
+                    index++;
+                    setTimeout(type, CONFIG.typingSpeed);
+                } else {
+                    cursor.style.display = 'none';
+                }
+            }
+
+            type();
+        }
+
+        // ========== YES BUTTON HEART EXPLOSION ==========
+        function createHeartExplosion(x, y) {
+            const container = document.body;
+            const explosionContainer = document.createElement('div');
+            explosionContainer.className = 'heart-explosion';
+            explosionContainer.style.left = x + 'px';
+            explosionContainer.style.top = y + 'px';
+            container.appendChild(explosionContainer);
+
+            const heartCount = 30;
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'explosion-heart';
+                heart.textContent = '❤️';
+
+                // Random explosion direction
+                const angle = (i / heartCount) * Math.PI * 2;
+                const distance = 300 + Math.random() * 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                heart.style.setProperty('--tx', tx + 'px');
+                heart.style.setProperty('--ty', ty + 'px');
+
+                explosionContainer.appendChild(heart);
+            }
+
+            // Clean up
+            setTimeout(() => {
+                explosionContainer.remove();
+            }, 2000);
+        }
+
+        function handleYesButton(e) {
+            const rect = e.target.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            createHeartExplosion(x, y);
+            
+            // Disable further interaction
+            setTimeout(() => {
+                document.getElementById('yesButton').disabled = true;
+                document.getElementById('noButton').disabled = true;
+                
+                // Optional: show celebration message
+                setTimeout(() => {
+                    alert('You\'ve made me the happiest person! I love you so much! 💕');
+                }, 500);
+            }, 100);
+        }
+
+        // ========== NO BUTTON MOVEMENT ==========
+        function handleNoButtonHover(e) {
+            const button = e.target;
+            
+            // Random position within viewport
+            const randomX = (Math.random() - 0.5) * 400;
+            const randomY = (Math.random() - 0.5) * 300;
+            
+            button.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function handleNoButtonClick(e) {
+            e.preventDefault();
+            handleNoButtonHover(e);
+        }
+
+        // ========== MUSIC CONTROL ==========
+        function setupMusicControl() {
+            const audio = document.getElementById('bgMusic');
+            const musicControl = document.getElementById('musicControl');
+            let isPlaying = false;
+
+            // Try to autoplay (will be muted)
+            audio.play().catch(() => {
+                // Autoplay blocked, user can click to enable
+            });
+
+            musicControl.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    musicControl.textContent = '🔇';
+                    isPlaying = false;
+                } else {
+                    audio.muted = false; // Unmute on user interaction
+                    audio.play();
+                    musicControl.textContent = '🔊';
+                    isPlaying = true;
+                }
+            });
+        }
+
+        // ========== PARALLAX EFFECT ==========
+        function setupParallax() {
+            const parallaxSections = document.querySelectorAll('.parallax-section');
+            
+            window.addEventListener('scroll', () => {
+                parallaxSections.forEach((section) => {
+                    const rect = section.getBoundingClientRect();
+                    const scrollPercentage = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                    
+                    if (scrollPercentage > 0 && scrollPercentage < 1) {
+                        section.style.transform = `translateY(${scrollPercentage * 30}px)`;
+                    }
+                });
+            });
+        }
+
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create floating hearts
+            createFloatingHearts();
+            
+            // Setup event listeners
+            document.getElementById('introButton').addEventListener('click', handleIntroButton);
+            document.getElementById('yesButton').addEventListener('click', handleYesButton);
+            document.getElementById('noButton').addEventListener('mouseover', handleNoButtonHover);
+            document.getElementById('noButton').addEventListener('click', handleNoButtonClick);
+            
+            // Mobile: No button should move on touch too
+            if (window.innerWidth <= 768) {
+                document.getElementById('noButton').addEventListener('touchstart', handleNoButtonHover);
+            }
+            
+            // Setup music
+            setupMusicControl();
+            
+            // Setup parallax
+            setupParallax();
+            
+            // Set her name
+            setHerName(CONFIG.herName);
+        });
+
+        // ========== RESPONSIVE ADJUSTMENTS ==========
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('noButton').removeEventListener('touchstart', handleNoButtonHover);
+                document.getElementById('noButton').addEventListener('mouseover', handleNoButtonHover);
+            }
+        });
+    </script>
+</body>
+</html>
