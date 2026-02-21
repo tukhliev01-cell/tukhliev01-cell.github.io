@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Confession to You</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mening iqrorim">
+    <meta name="theme-color" content="#ff1744">
+    <meta name="description" content="Sevgi iqrori uchun sahifa">
+    <title>Senga iqrorim bor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         :root {
@@ -25,23 +34,44 @@
             --glow-radius: 20px;
         }
 
-        html, body {
+        html {
             width: 100%;
             height: 100%;
             overflow-x: hidden;
         }
 
         body {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
             font-family: 'Montserrat', sans-serif;
             background: linear-gradient(135deg, var(--dark-bg) 0%, #1a0f2e 50%, var(--dark-secondary) 100%);
+            background-attachment: fixed;
             color: var(--text-primary);
+            position: fixed;
+            overflow: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        main {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             overflow-y: scroll;
-            position: relative;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            will-change: scroll-position;
         }
 
         /* ========== SCROLLBAR ========== */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -51,6 +81,10 @@
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
             border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, var(--accent-light), var(--primary-color));
         }
 
         /* ========== FLOATING HEARTS BACKGROUND ========== */
@@ -67,26 +101,43 @@
 
         .heart {
             position: absolute;
-            font-size: clamp(20px, 5vw, 60px);
-            opacity: 0.3;
-            animation: float 8s infinite ease-in;
-            filter: drop-shadow(0 0 10px rgba(255, 23, 68, 0.5));
+            font-size: clamp(16px, 4vw, 50px);
+            opacity: 0.2;
+            animation: float-hearts 10s linear forwards;
+            filter: drop-shadow(0 0 8px rgba(255, 23, 68, 0.3));
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        @keyframes float {
+        @media (max-width: 768px) {
+            .heart {
+                opacity: 0.15;
+                filter: drop-shadow(0 0 4px rgba(255, 23, 68, 0.2));
+            }
+        }
+
+        @keyframes float-hearts {
             0% {
                 transform: translateY(100vh) translateX(0) rotate(0deg);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.4;
+            5% {
+                opacity: 0.25;
             }
-            90% {
-                opacity: 0.4;
+            95% {
+                opacity: 0.25;
             }
             100% {
-                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                transform: translateY(-100vh) translateX(80px) rotate(360deg);
                 opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            @keyframes float-hearts {
+                0% { transform: translateY(100vh); opacity: 0; }
+                100% { transform: translateY(-100vh); opacity: 0; }
             }
         }
 
@@ -96,48 +147,44 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(15, 15, 30, 0.95) 0%, rgba(26, 15, 46, 0.95) 100%);
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.98) 0%, rgba(26, 15, 46, 0.98) 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            animation: fadeInIntro 0.8s ease-out;
-            backdrop-filter: blur(10px);
+            animation: fadeInIntro 0.5s ease-out forwards;
+            will-change: opacity;
+            padding: 20px;
+            overflow: hidden;
         }
 
         @keyframes fadeInIntro {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .intro-screen.hidden {
-            animation: fadeOutIntro 0.8s ease-out forwards;
+            animation: fadeOutIntro 0.5s ease-out forwards;
             pointer-events: none;
         }
 
         @keyframes fadeOutIntro {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
 
         .intro-content {
             text-align: center;
-            animation: slideUp 1s ease-out 0.3s backward;
+            animation: slideUp 0.6s ease-out 0.15s backwards;
+            padding: clamp(15px, 5vw, 30px);
+            max-width: 90vw;
         }
 
         @keyframes slideUp {
             from {
-                transform: translateY(50px);
+                transform: translateY(20px);
                 opacity: 0;
             }
             to {
@@ -147,49 +194,60 @@
         }
 
         .intro-heart {
-            font-size: 100px;
-            margin-bottom: 30px;
-            animation: pulseHeart 1.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(255, 23, 68, 0.6));
+            font-size: clamp(50px, 25vw, 100px);
+            margin-bottom: clamp(15px, 5vw, 25px);
+            animation: pulseHeart 1.4s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px rgba(255, 23, 68, 0.4));
+            line-height: 1;
         }
 
         @keyframes pulseHeart {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            @keyframes pulseHeart {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
             }
         }
 
         .intro-text {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(28px, 8vw, 48px);
+            font-size: clamp(24px, 6vw, 48px);
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 50px;
+            margin-bottom: clamp(25px, 8vw, 40px);
             line-height: 1.3;
-            text-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
+            text-shadow: 0 0 20px rgba(255, 23, 68, 0.2);
+            letter-spacing: 0.5px;
         }
 
         .intro-button {
-            padding: 18px 50px;
-            font-size: 18px;
+            padding: clamp(13px, 3vw, 16px) clamp(32px, 8vw, 48px);
+            font-size: clamp(15px, 4vw, 17px);
             font-weight: 600;
             border: 2px solid var(--primary-color);
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-family: 'Poppins', sans-serif;
-            box-shadow: 0 0 40px rgba(255, 23, 68, 0.4);
-            animation: popIn 0.8s ease-out 0.8s backward;
+            box-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
+            animation: popIn 0.5s ease-out 0.4s backwards;
+            will-change: transform;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            appearance: none;
+            min-height: 44px;
+            min-width: 44px;
         }
 
         @keyframes popIn {
             from {
-                transform: scale(0.8);
+                transform: scale(0.85);
                 opacity: 0;
             }
             to {
@@ -198,49 +256,59 @@
             }
         }
 
-        .intro-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 60px rgba(255, 23, 68, 0.8);
+        .intro-button:active {
+            transform: scale(0.93);
         }
 
-        .intro-button:active {
-            transform: scale(0.95);
+        @media (min-width: 769px) {
+            .intro-button:hover {
+                transform: scale(1.06);
+                box-shadow: 0 0 50px rgba(255, 23, 68, 0.6);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .intro-button,
+            .intro-heart,
+            .intro-text,
+            .intro-content {
+                animation: none;
+            }
         }
 
         /* ========== MAIN CONTENT ========== */
         .main-content {
             position: relative;
             z-index: 2;
-            min-height: 100vh;
-            padding: 40px 20px;
+            min-height: 100%;
+            padding: clamp(25px, 5vw, 40px) clamp(12px, 4vw, 20px);
             opacity: 0;
-            animation: fadeIn 1s ease-out 0.8s forwards;
+            animation: fadeIn 0.6s ease-out 0.5s forwards;
+            will-change: opacity;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .content-wrapper {
             max-width: 800px;
             margin: 0 auto;
+            width: 100%;
         }
 
         /* ========== HER NAME SECTION ========== */
         .her-name-section {
             text-align: center;
-            margin-bottom: 80px;
-            animation: slideInDown 0.8s ease-out;
+            margin-bottom: clamp(50px, 12vw, 70px);
+            margin-top: clamp(10px, 3vw, 20px);
+            animation: slideInDown 0.5s ease-out;
         }
 
         @keyframes slideInDown {
             from {
-                transform: translateY(-30px);
+                transform: translateY(-15px);
                 opacity: 0;
             }
             to {
@@ -258,42 +326,65 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: shimmer 4s ease-in-out infinite, slideInDown 0.8s ease-out 0.1s backward;
-            margin-bottom: 20px;
+            animation: shimmer 4s ease-in-out infinite;
+            margin-bottom: clamp(10px, 2vw, 15px);
+            line-height: 1.1;
+            letter-spacing: 0.5px;
         }
 
         @keyframes shimmer {
-            0%, 100% {
-                background-position: 0% 50%;
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            @keyframes shimmer {
+                0%, 100% { background-position: 0% 50%; }
             }
-            50% {
-                background-position: 100% 50%;
+
+            .her-name {
+                animation: none;
             }
         }
 
         .subtitle {
-            font-size: 16px;
+            font-size: clamp(12px, 3vw, 14px);
             color: var(--text-secondary);
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            animation: slideInDown 0.8s ease-out 0.2s backward;
+            animation: slideInDown 0.5s ease-out 0.1s backwards;
+            font-weight: 400;
         }
 
         /* ========== CONFESSION MESSAGE ========== */
         .confession-container {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 23, 68, 0.2);
-            border-radius: 20px;
-            padding: 50px 30px;
-            margin: 60px 0;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(255, 23, 68, 0.1);
-            animation: slideInUp 0.8s ease-out;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 23, 68, 0.12);
+            border-radius: clamp(12px, 3vw, 16px);
+            padding: clamp(25px, 5vw, 40px) clamp(18px, 4vw, 28px);
+            margin: clamp(35px, 8vw, 50px) 0;
+            box-shadow: 0 8px 32px rgba(255, 23, 68, 0.06);
+            animation: slideInUp 0.5s ease-out;
+            will-change: auto;
+        }
+
+        @media (min-width: 769px) {
+            .confession-container {
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .confession-container {
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
         }
 
         @keyframes slideInUp {
             from {
-                transform: translateY(30px);
+                transform: translateY(15px);
                 opacity: 0;
             }
             to {
@@ -303,55 +394,64 @@
         }
 
         .confession-text {
-            font-size: clamp(18px, 5vw, 24px);
+            font-size: clamp(15px, 4vw, 22px);
             line-height: 1.8;
             color: var(--text-secondary);
             font-weight: 300;
             text-align: center;
-            min-height: 150px;
+            min-height: clamp(80px, 20vw, 150px);
             display: flex;
             align-items: center;
             justify-content: center;
             font-style: italic;
+            word-spacing: 0.05em;
         }
 
         .typing-cursor {
             display: inline-block;
             width: 2px;
-            height: 1em;
+            height: 0.9em;
             background: var(--primary-color);
-            margin-left: 4px;
-            animation: blink 0.7s infinite;
+            margin-left: 3px;
+            animation: blink 0.6s step-end infinite;
+            will-change: opacity;
         }
 
         @keyframes blink {
-            0%, 49%, 100% {
-                opacity: 1;
-            }
-            50%, 99% {
-                opacity: 0;
-            }
+            0%, 49%, 100% { opacity: 1; }
+            50%, 99% { opacity: 0; }
         }
 
         /* ========== BIG CONFESSION ========== */
         .big-confession {
             text-align: center;
-            margin: 100px 0 80px;
-            animation: slideInUp 0.8s ease-out 0.4s backward;
+            margin: clamp(50px, 12vw, 80px) 0 clamp(40px, 10vw, 60px);
+            animation: slideInUp 0.5s ease-out 0.15s backwards;
         }
 
         .big-text {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(48px, 15vw, 120px);
+            font-size: clamp(42px, 11vw, 100px);
             font-weight: 700;
             background: linear-gradient(135deg, var(--accent-light) 0%, var(--primary-color) 50%, var(--secondary-color) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 50px rgba(255, 23, 68, 0.3);
-            line-height: 1.2;
-            filter: drop-shadow(0 0 30px rgba(255, 23, 68, 0.3));
-            animation: popIn 0.8s ease-out 0.6s backward;
+            line-height: 1.15;
+            filter: drop-shadow(0 0 15px rgba(255, 23, 68, 0.15));
+            animation: popIn 0.5s ease-out 0.3s backwards;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         /* ========== BUTTONS SECTION ========== */
@@ -359,55 +459,102 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
-            margin-top: 80px;
+            gap: clamp(10px, 3vw, 25px);
+            margin-top: clamp(40px, 10vw, 70px);
+            margin-bottom: clamp(30px, 8vw, 80px);
             flex-wrap: wrap;
-            animation: slideInUp 0.8s ease-out 0.8s backward;
+            animation: slideInUp 0.5s ease-out 0.3s backwards;
+            padding: 0 clamp(0px, 2vw, 10px);
         }
 
         .response-button {
-            padding: 16px 40px;
-            font-size: 18px;
+            padding: clamp(11px, 2.8vw, 15px) clamp(24px, 5vw, 36px);
+            font-size: clamp(14px, 3.5vw, 16px);
             font-weight: 600;
             border: 2px solid transparent;
             border-radius: 50px;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
+            transition: all 0.15s ease;
             position: relative;
             overflow: hidden;
             z-index: 10;
+            will-change: transform;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            appearance: none;
+            min-height: 44px;
+            min-width: 44px;
+            line-height: 1.3;
+            letter-spacing: 0.3px;
         }
 
         .yes-button {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            box-shadow: 0 0 40px rgba(255, 23, 68, 0.5);
+            box-shadow: 0 0 25px rgba(255, 23, 68, 0.35);
             border: 2px solid var(--primary-color);
-        }
-
-        .yes-button:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 80px rgba(255, 23, 68, 0.8);
-            filter: brightness(1.1);
+            flex: 1;
+            max-width: 180px;
         }
 
         .yes-button:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
+            box-shadow: 0 0 15px rgba(255, 23, 68, 0.5);
+        }
+
+        @media (min-width: 769px) {
+            .yes-button:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 50px rgba(255, 23, 68, 0.6);
+                filter: brightness(1.08);
+            }
         }
 
         .no-button {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
             color: var(--text-secondary);
-            border: 2px solid rgba(255, 23, 68, 0.3);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            transition: all 0.1s ease;
+            border: 2px solid rgba(255, 23, 68, 0.2);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+            transition: all 0.15s ease;
+            flex: 1;
+            max-width: 180px;
         }
 
-        .no-button:hover {
-            background: rgba(255, 23, 68, 0.1);
+        .no-button:active {
+            background: rgba(255, 23, 68, 0.08);
             border-color: var(--primary-color);
-            box-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
+            transform: scale(0.95);
+        }
+
+        @media (min-width: 769px) {
+            .no-button:hover {
+                background: rgba(255, 23, 68, 0.1);
+                border-color: var(--primary-color);
+                box-shadow: 0 0 20px rgba(255, 23, 68, 0.2);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .response-button {
+                width: 100%;
+                max-width: none;
+                flex: 1 1 45%;
+            }
+
+            .buttons-container {
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .response-button {
+                flex: 1 1 calc(50% - 4px);
+            }
+
+            .buttons-container {
+                gap: 8px;
+            }
         }
 
         /* ========== HEART EXPLOSION ANIMATION ========== */
@@ -419,9 +566,12 @@
 
         .explosion-heart {
             position: absolute;
-            font-size: 40px;
-            animation: explode 2s ease-out forwards;
-            filter: drop-shadow(0 0 15px rgba(255, 23, 68, 0.8));
+            font-size: clamp(24px, 5vw, 36px);
+            animation: explode 1.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            filter: drop-shadow(0 0 10px rgba(255, 23, 68, 0.6));
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         @keyframes explode {
@@ -438,92 +588,144 @@
         /* ========== MUSIC CONTROL ========== */
         .music-control {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: clamp(12px, 3vw, 25px);
+            right: clamp(12px, 3vw, 25px);
             z-index: 100;
-            background: rgba(255, 23, 68, 0.2);
-            border: 2px solid rgba(255, 23, 68, 0.4);
-            width: 60px;
-            height: 60px;
+            background: rgba(255, 23, 68, 0.12);
+            border: 2px solid rgba(255, 23, 68, 0.25);
+            width: clamp(48px, 12vw, 56px);
+            height: clamp(48px, 12vw, 56px);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 28px;
-            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+            font-size: clamp(18px, 5vw, 26px);
+            touch-action: manipulation;
+            will-change: transform;
+            -webkit-appearance: none;
+            appearance: none;
+            border-radius: 50%;
+            padding: 0;
+            line-height: 1;
         }
 
-        .music-control:hover {
-            background: rgba(255, 23, 68, 0.4);
-            box-shadow: 0 0 40px rgba(255, 23, 68, 0.6);
-            transform: scale(1.1);
+        .music-control:active {
+            transform: scale(0.88);
         }
 
-        /* ========== PARALLAX EFFECT ========== */
-        .parallax-section {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        @media (min-width: 769px) {
+            .music-control:hover {
+                background: rgba(255, 23, 68, 0.25);
+                box-shadow: 0 0 30px rgba(255, 23, 68, 0.4);
+                transform: scale(1.08);
+            }
+        }
+
+        /* ========== SAFE AREA SUPPORT ========== */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+                padding-bottom: max(0px, env(safe-area-inset-bottom));
+                padding-top: max(0px, env(safe-area-inset-top));
+            }
+
+            .music-control {
+                bottom: max(clamp(12px, 3vw, 25px), calc(env(safe-area-inset-bottom) + 12px));
+                right: max(clamp(12px, 3vw, 25px), calc(env(safe-area-inset-right) + 12px));
+            }
         }
 
         /* ========== RESPONSIVE DESIGN ========== */
         @media (max-width: 768px) {
-            .buttons-container {
-                gap: 15px;
+            main {
+                scroll-padding-top: 10px;
             }
 
-            .response-button {
-                padding: 14px 30px;
-                font-size: 16px;
-            }
-
-            .intro-button {
-                padding: 16px 40px;
-                font-size: 16px;
+            .her-name-section {
+                margin-bottom: 45px;
+                margin-top: 15px;
             }
 
             .confession-container {
-                padding: 30px 20px;
-                margin: 40px 0;
+                margin: 30px 0;
             }
 
-            .music-control {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+            .intro-content {
+                padding: clamp(20px, 5vw, 30px);
             }
         }
 
         @media (max-width: 480px) {
             .buttons-container {
-                gap: 10px;
+                gap: 8px;
+                margin-top: 35px;
+                margin-bottom: 40px;
             }
 
-            .response-button {
-                padding: 12px 25px;
-                font-size: 14px;
+            .her-name-section {
+                margin-bottom: 40px;
+                margin-top: 12px;
             }
 
-            .intro-text {
-                line-height: 1.4;
+            .big-confession {
+                margin: 45px 0 35px;
             }
 
+            .confession-container {
+                padding: clamp(20px, 4vw, 30px) clamp(15px, 3vw, 20px);
+                margin: 25px 0;
+            }
+
+            .intro-heart {
+                margin-bottom: 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
             .her-name {
-                margin-bottom: 15px;
+                font-size: clamp(28px, 8vw, 50px);
             }
 
-            .subtitle {
-                font-size: 12px;
+            .big-text {
+                font-size: clamp(32px, 9vw, 70px);
             }
 
             .confession-text {
-                font-size: 16px;
+                font-size: clamp(13px, 3vw, 18px);
+                line-height: 1.6;
+            }
+
+            .confession-container {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+
+            .response-button {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+
+        /* ========== PERFORMANCE OPTIMIZATION ========== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ========== HIGH DPI DISPLAYS ========== */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .heart, .explosion-heart {
+                filter: drop-shadow(0 0 5px rgba(255, 23, 68, 0.4));
+            }
+
+            .intro-heart {
+                filter: drop-shadow(0 0 12px rgba(255, 23, 68, 0.3));
             }
         }
     </style>
@@ -536,93 +738,152 @@
     <div class="intro-screen" id="introScreen">
         <div class="intro-content">
             <div class="intro-heart">❤️</div>
-            <h1 class="intro-text">I have something to tell you...</h1>
-            <button class="intro-button" id="introButton">Begin</button>
+            <h1 class="intro-text">Senga bir gapim bor...</h1>
+            <button class="intro-button" id="introButton">Boshlaymiz</button>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content" id="mainContent">
-        <div class="content-wrapper">
-            <!-- HER NAME -->
-            <div class="her-name-section">
-                <h1 class="her-name" id="herName">Dilnura</h1>
-                <p class="subtitle">A moment I've been waiting for</p>
-            </div>
+    <!-- MAIN CONTENT SCROLL CONTAINER -->
+    <main id="mainScroll">
+        <div class="main-content" id="mainContent">
+            <div class="content-wrapper">
+                <!-- HER NAME -->
+                <div class="her-name-section">
+                    <h1 class="her-name" id="herName">{{HER_NAME}}</h1>
+                </div>
 
-            <!-- CONFESSION MESSAGE -->
-            <div class="confession-container parallax-section">
-                <p class="confession-text">
-                    <span id="typingText"></span><span class="typing-cursor" id="cursor"></span>
-                </p>
-            </div>
+                <!-- CONFESSION MESSAGE -->
+                <div class="confession-container">
+                    <p class="confession-text">
+                        <span id="typingText"></span><span class="typing-cursor" id="cursor"></span>
+                    </p>
+                </div>
 
-            <!-- BIG CONFESSION -->
-            <div class="big-confession parallax-section">
-                <h2 class="big-text">I Love You ❤️</h2>
-            </div>
+                <!-- BIG CONFESSION -->
+                <div class="big-confession">
+                    <h2 class="big-text">Meni sevasanmi?</h2>
+                </div>
 
-            <!-- RESPONSE BUTTONS -->
-            <div class="buttons-container">
-                <button class="response-button yes-button" id="yesButton">Yes ❤️</button>
-                <button class="response-button no-button" id="noButton">No 🙈</button>
+                <!-- RESPONSE BUTTONS -->
+                <div class="buttons-container">
+                    <button class="response-button yes-button" id="yesButton">Ha ❤️</button>
+                    <button class="response-button no-button" id="noButton">Yo'q 🙈</button>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- MUSIC CONTROL -->
-    <div class="music-control" id="musicControl" title="Toggle Music">🔇</div>
+    <div class="music-control" id="musicControl" title="Musiqani o'chirish/yoqish">🔇</div>
 
     <!-- AUDIO ELEMENT -->
-    <audio id="bgMusic" loop muted>
+    <audio id="bgMusic" loop playsinline>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <script>
+        'use strict';
+
+        // ========== DEVICE DETECTION ==========
+        const DEVICE = {
+            isMobile: () => window.innerWidth <= 768,
+            isSmallMobile: () => window.innerWidth <= 480,
+            isUltraSmall: () => window.innerWidth <= 360,
+            hasTouch: () => 'ontouchstart' in window,
+            isHighDPI: () => window.devicePixelRatio >= 2,
+            isIOS: () => /iPad|iPhone|iPod/.test(navigator.userAgent),
+            isAndroid: () => /Android/.test(navigator.userAgent),
+        };
+
         // ========== CONFIG ==========
         const CONFIG = {
-            herName: 'Dilnura', // Replace {{HER_NAME}} with your preferred name
-            confessionMessage: 'Every moment with you feels like a beautiful dream. Your smile brightens my darkest days, and your presence makes everything feel right. I\'ve thought about this moment countless times, and now that it\'s here, I want you to know how deeply I feel for you. You\'ve changed my life in ways I never thought possible.',
-            typingSpeed: 50, // milliseconds per character
-            heartCount: 15,
+            herName: 'Dilnura❤️',
+            confessionMessage: 'Sen hayotimga kirganingdan beri hammasi o‘zgardi. Ilgari oddiy bo‘lib tuyulgan kunlarim endi sen bilan ma’no topdi. Sening tabassuming qalbimga nur olib kiradi, ovozing esa yuragimni tinchlantiradi. Har safar seni ko‘rganimda ichimda izohlab bo‘lmaydigan iliqlik paydo bo‘ladi. Bu hislarni uzoq vaqt ichimda saqladim, lekin endi aytmasam bo‘lmaydi — seni chin dildan, butun qalbim bilan sevaman. Sen mening eng katta baxtimga aylanding.',
+            heartCount: DEVICE.isMobile() ? (DEVICE.isSmallMobile() ? 5 : 8) : 12,
+            enableParallax: false,
+            musicAutoplay: true,
+            maxHearts: 600,
+        };
+
+        // ========== PERFORMANCE STATE ==========
+        let animationFrameId = null;
+        let isIntroHidden = false;
+        let isTypingComplete = false;
+
+        // ========== UTILITIES ==========
+        const debounce = (func, wait) => {
+            let timeout;
+            return function executedFunction(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func(...args), wait);
+            };
+        };
+
+        const throttle = (func, limit) => {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
         };
 
         // ========== FLOATING HEARTS ==========
         function createFloatingHearts() {
             const container = document.getElementById('floatingHearts');
+            if (!container) return;
+
             const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+            const count = CONFIG.heartCount;
             
-            for (let i = 0; i < CONFIG.heartCount; i++) {
+            for (let i = 0; i < count; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
                 heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 3 + 's';
-                heart.style.animationDuration = (8 + Math.random() * 4) + 's';
+                
+                const delay = Math.random() * 4;
+                const duration = 9 + Math.random() * 3;
+                
+                heart.style.animationDelay = delay + 's';
+                heart.style.animationDuration = duration + 's';
+                
                 container.appendChild(heart);
 
-                // Re-create hearts after animation completes
+                // Recycle hearts after animation
+                const timeoutDuration = (delay + duration) * 1000;
                 setTimeout(() => {
-                    heart.remove();
-                    createFloatingHearts();
-                }, (8 + Math.random() * 4) * 1000);
+                    if (heart.parentNode) {
+                        heart.remove();
+                    }
+                    if (container.children.length < CONFIG.heartCount && document.body.contains(container)) {
+                        createFloatingHearts();
+                    }
+                }, timeoutDuration);
             }
         }
 
         // ========== INTRO SCREEN ==========
         function handleIntroButton() {
             const introScreen = document.getElementById('introScreen');
-            introScreen.classList.add('hidden');
+            if (!introScreen) return;
             
-            // Start typing effect after intro fades
+            introScreen.classList.add('hidden');
+            isIntroHidden = true;
+            
             setTimeout(() => {
                 startTypingAnimation();
-            }, 800);
+            }, 500);
         }
 
-        // ========== REPLACE HER NAME ==========
+        // ========== SET HER NAME ==========
         function setHerName(name) {
-            document.getElementById('herName').textContent = name;
+            const element = document.getElementById('herName');
+            if (element) {
+                element.textContent = name;
+            }
         }
 
         // ========== TYPING ANIMATION ==========
@@ -630,164 +891,281 @@
             const text = CONFIG.confessionMessage;
             const typingText = document.getElementById('typingText');
             const cursor = document.getElementById('cursor');
+            
+            if (!typingText || isTypingComplete) return;
+
             let index = 0;
+            let lastTime = Date.now();
 
             function type() {
                 if (index < text.length) {
-                    typingText.textContent += text[index];
-                    index++;
-                    setTimeout(type, CONFIG.typingSpeed);
+                    const currentTime = Date.now();
+                    const deltaTime = currentTime - lastTime;
+                    
+                    if (deltaTime >= 50) { // typing speed
+                        const char = text[index];
+                        typingText.textContent += char;
+                        index++;
+                        lastTime = currentTime;
+                    }
+                    
+                    animationFrameId = requestAnimationFrame(type);
                 } else {
-                    cursor.style.display = 'none';
+                    isTypingComplete = true;
+                    if (cursor) {
+                        cursor.style.display = 'none';
+                    }
                 }
             }
 
-            type();
+            animationFrameId = requestAnimationFrame(type);
+        }
+
+        // ========== CONSTRAIN BUTTON TO VIEWPORT ==========
+        function getConstrainedPosition(button, offsetX, offsetY) {
+            const rect = button.getBoundingClientRect();
+            const margin = 10;
+            const maxX = window.innerWidth - rect.width - margin;
+            const maxY = window.innerHeight - rect.height - margin;
+
+            let x = Math.max(margin - rect.left, Math.min(offsetX, maxX - rect.left));
+            let y = Math.max(margin - rect.top, Math.min(offsetY, maxY - rect.top));
+
+            return { x, y };
+        }
+
+        // ========== NO BUTTON MOVEMENT ==========
+        function handleNoButtonInteraction(e) {
+            const button = e.currentTarget;
+            if (button.disabled) return;
+
+            const maxDistance = DEVICE.isSmallMobile() ? 120 : DEVICE.isMobile() ? 180 : 280;
+            
+            let randomX, randomY, distance;
+            
+            do {
+                randomX = (Math.random() - 0.5) * maxDistance;
+                randomY = (Math.random() - 0.5) * maxDistance;
+                distance = Math.sqrt(randomX * randomX + randomY * randomY);
+            } while (distance < maxDistance * 0.2);
+
+            const { x, y } = getConstrainedPosition(button, randomX, randomY);
+            button.style.transform = `translate(${x}px, ${y}px)`;
         }
 
         // ========== YES BUTTON HEART EXPLOSION ==========
         function createHeartExplosion(x, y) {
-            const container = document.body;
             const explosionContainer = document.createElement('div');
             explosionContainer.className = 'heart-explosion';
             explosionContainer.style.left = x + 'px';
             explosionContainer.style.top = y + 'px';
-            container.appendChild(explosionContainer);
+            document.body.appendChild(explosionContainer);
 
-            const heartCount = 30;
+            const heartCount = DEVICE.isSmallMobile() ? 12 : DEVICE.isMobile() ? 18 : 25;
+            
             for (let i = 0; i < heartCount; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'explosion-heart';
                 heart.textContent = '❤️';
 
-                // Random explosion direction
                 const angle = (i / heartCount) * Math.PI * 2;
-                const distance = 300 + Math.random() * 200;
+                const distance = 150 + Math.random() * 150;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
 
                 heart.style.setProperty('--tx', tx + 'px');
                 heart.style.setProperty('--ty', ty + 'px');
-
                 explosionContainer.appendChild(heart);
             }
 
-            // Clean up
             setTimeout(() => {
-                explosionContainer.remove();
-            }, 2000);
+                if (explosionContainer.parentNode) {
+                    explosionContainer.remove();
+                }
+            }, 1800);
         }
 
         function handleYesButton(e) {
-            const rect = e.target.getBoundingClientRect();
+            e.preventDefault();
+            
+            const button = e.target;
+            const rect = button.getBoundingClientRect();
             const x = rect.left + rect.width / 2;
             const y = rect.top + rect.height / 2;
             
             createHeartExplosion(x, y);
             
-            // Disable further interaction
+            const yesBtn = document.getElementById('yesButton');
+            const noBtn = document.getElementById('noButton');
+            
+            if (yesBtn) yesBtn.disabled = true;
+            if (noBtn) noBtn.disabled = true;
+            
             setTimeout(() => {
-                document.getElementById('yesButton').disabled = true;
-                document.getElementById('noButton').disabled = true;
-                
-                // Optional: show celebration message
-                setTimeout(() => {
-                    alert('You\'ve made me the happiest person! I love you so much! 💕');
-                }, 500);
-            }, 100);
-        }
-
-        // ========== NO BUTTON MOVEMENT ==========
-        function handleNoButtonHover(e) {
-            const button = e.target;
-            
-            // Random position within viewport
-            const randomX = (Math.random() - 0.5) * 400;
-            const randomY = (Math.random() - 0.5) * 300;
-            
-            button.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        }
-
-        function handleNoButtonClick(e) {
-            e.preventDefault();
-            handleNoButtonHover(e);
+                alert('Sen meni dunyodagi eng baxtli inson qilding! Seni juda yaxshi ko\'raman! 💕');
+            }, 400);
         }
 
         // ========== MUSIC CONTROL ==========
         function setupMusicControl() {
             const audio = document.getElementById('bgMusic');
             const musicControl = document.getElementById('musicControl');
+            
+            if (!audio || !musicControl) return;
+
             let isPlaying = false;
 
-            // Try to autoplay (will be muted)
-            audio.play().catch(() => {
-                // Autoplay blocked, user can click to enable
-            });
+            // Attempt autoplay with unlocked sound
+            if (CONFIG.musicAutoplay) {
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            isPlaying = true;
+                            musicControl.textContent = '🔊';
+                        })
+                        .catch(() => {
+                            // Autoplay blocked, show mute icon
+                            musicControl.textContent = '🔇';
+                        });
+                }
+            } else {
+                musicControl.textContent = '🔇';
+            }
 
-            musicControl.addEventListener('click', () => {
+            musicControl.addEventListener('click', (e) => {
+                e.preventDefault();
+                
                 if (isPlaying) {
                     audio.pause();
                     musicControl.textContent = '🔇';
                     isPlaying = false;
                 } else {
-                    audio.muted = false; // Unmute on user interaction
-                    audio.play();
-                    musicControl.textContent = '🔊';
-                    isPlaying = true;
-                }
-            });
-        }
-
-        // ========== PARALLAX EFFECT ==========
-        function setupParallax() {
-            const parallaxSections = document.querySelectorAll('.parallax-section');
-            
-            window.addEventListener('scroll', () => {
-                parallaxSections.forEach((section) => {
-                    const rect = section.getBoundingClientRect();
-                    const scrollPercentage = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                    const playPromise = audio.play();
                     
-                    if (scrollPercentage > 0 && scrollPercentage < 1) {
-                        section.style.transform = `translateY(${scrollPercentage * 30}px)`;
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                musicControl.textContent = '🔊';
+                                isPlaying = true;
+                            })
+                            .catch(() => {
+                                console.log('Audio playback blocked');
+                            });
                     }
-                });
-            });
+                }
+            }, { passive: true });
+
+            // Handle page visibility
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden && isPlaying) {
+                    audio.pause();
+                } else if (!document.hidden && isPlaying) {
+                    audio.play().catch(() => {});
+                }
+            }, { passive: true });
         }
 
         // ========== INITIALIZATION ==========
-        document.addEventListener('DOMContentLoaded', () => {
+        function init() {
             // Create floating hearts
             createFloatingHearts();
             
-            // Setup event listeners
-            document.getElementById('introButton').addEventListener('click', handleIntroButton);
-            document.getElementById('yesButton').addEventListener('click', handleYesButton);
-            document.getElementById('noButton').addEventListener('mouseover', handleNoButtonHover);
-            document.getElementById('noButton').addEventListener('click', handleNoButtonClick);
-            
-            // Mobile: No button should move on touch too
-            if (window.innerWidth <= 768) {
-                document.getElementById('noButton').addEventListener('touchstart', handleNoButtonHover);
+            // Intro button
+            const introButton = document.getElementById('introButton');
+            if (introButton) {
+                introButton.addEventListener('click', handleIntroButton, { passive: true });
             }
-            
-            // Setup music
+
+            // Yes button
+            const yesButton = document.getElementById('yesButton');
+            if (yesButton) {
+                yesButton.addEventListener('click', handleYesButton, { passive: false });
+            }
+
+            // No button
+            const noButton = document.getElementById('noButton');
+            if (noButton) {
+                if (DEVICE.hasTouch()) {
+                    noButton.addEventListener('touchstart', handleNoButtonInteraction, { passive: false });
+                    noButton.addEventListener('touchmove', handleNoButtonInteraction, { passive: false });
+                } else {
+                    noButton.addEventListener('mouseover', handleNoButtonInteraction, { passive: true });
+                }
+                
+                noButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+            }
+
+            // Music control
             setupMusicControl();
-            
-            // Setup parallax
-            setupParallax();
             
             // Set her name
             setHerName(CONFIG.herName);
-        });
 
-        // ========== RESPONSIVE ADJUSTMENTS ==========
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.getElementById('noButton').removeEventListener('touchstart', handleNoButtonHover);
-                document.getElementById('noButton').addEventListener('mouseover', handleNoButtonHover);
+            // Smooth scrolling
+            document.documentElement.style.scrollBehavior = 'smooth';
+        }
+
+        // ========== WINDOW RESIZE HANDLER ==========
+        const handleResize = debounce(() => {
+            const newIsMobile = DEVICE.isMobile();
+            const newHeartCount = newIsMobile ? (DEVICE.isSmallMobile() ? 5 : 8) : 12;
+            
+            if (newHeartCount !== CONFIG.heartCount) {
+                CONFIG.heartCount = newHeartCount;
+                const floatingHearts = document.getElementById('floatingHearts');
+                if (floatingHearts) {
+                    floatingHearts.innerHTML = '';
+                    createFloatingHearts();
+                }
             }
-        });
+        }, 300);
+
+        window.addEventListener('resize', handleResize, { passive: true });
+
+        // ========== SCROLL OPTIMIZATION ==========
+        const handleScroll = throttle(() => {
+            // Optimized scroll handler - reserve for future parallax if needed
+        }, 100);
+
+        const mainScroll = document.getElementById('mainScroll');
+        if (mainScroll) {
+            mainScroll.addEventListener('scroll', handleScroll, { passive: true });
+        }
+
+        // ========== START ==========
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init, { passive: true });
+        } else {
+            init();
+        }
+
+        // ========== CLEANUP ==========
+        window.addEventListener('beforeunload', () => {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        }, { passive: true });
+
+        // ========== PREVENT ZOOM ON INPUT ==========
+        document.addEventListener('touchmove', (e) => {
+            if (e.scale !== 1 && e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // ========== PREVENT DOUBLE TAP ZOOM ==========
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, { passive: false });
     </script>
 </body>
 </html>
-
